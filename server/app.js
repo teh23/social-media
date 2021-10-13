@@ -7,6 +7,7 @@ const DB_URL = process.env.DB_URL;
 const app = express();
 const cors = require('cors');
 const morgan = require('morgan');
+const routes = require('./routers');
 
 mongoose
   .connect(DB_URL)
@@ -22,8 +23,6 @@ app.use(express.json());
 app.use(cors());
 app.use(morgan('tiny'));
 
-app.get('/', (req, res) => {
-  res.send('asd');
-});
+app.use('/api', routes);
 
 module.exports = app;
