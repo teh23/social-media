@@ -1,10 +1,7 @@
-const Users = require('../models').Users;
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-
-const findOneUser = async (user) => {
-  return await Users.findOne({ username: user });
-};
+const { Users } = require('../models');
+const { findOneUser } = require('../services').users;
 
 const addUser = async (req, res) => {
   const { body } = req;
@@ -16,17 +13,14 @@ const addUser = async (req, res) => {
       try {
         const passwordHash = await bcrypt.hash(body.password, saltRounds);
 
-        let newUser = new Users({
+        const newUser = new Users({
           username: body.username,
           password: passwordHash,
         });
-        try {
-          const saved = await newUser.save();
 
-          res.send(saved);
-        } catch (err) {
-          res.status(400).json(err.message);
-        }
+        const saved = await newUser.save();
+
+        res.send(saved);
       } catch (err) {
         res.status(404).json(err.message);
       }
@@ -54,6 +48,7 @@ const loginUser = async (req, res) => {
 
     const tokenData = {
       username: user.username,
+      // eslint-disable-next-line no-underscore-dangle
       id: user._id,
     };
 
@@ -61,7 +56,6 @@ const loginUser = async (req, res) => {
     res.status(200).json({ token, username: user.username });
   } catch (error) {
     res.status(400).json({ error });
-    return;
   }
 };
 

@@ -1,12 +1,14 @@
+import '@babel/polyfill';
+
+const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 const supertest = require('supertest');
-import '@babel/polyfill';
 const app = require('../app');
+
 const api = supertest(app);
 const User = require('../models').Users;
-const bcrypt = require('bcrypt');
 
-const DB_URL = process.env.DB_URL;
+const { DB_URL } = process.env;
 
 const initialUser = {
   username: 'test',
@@ -24,7 +26,7 @@ beforeEach(async () => {
 });
 
 describe('user api tests', () => {
-  test('add user', async () => {
+  it('add user', async () => {
     const newUserObject = {
       username: 'new',
       password: 'new',
@@ -36,12 +38,13 @@ describe('user api tests', () => {
       .expect('Content-Type', /application\/json/);
   });
 
-  test('added user should be unique', async () => {
-    await api
+  test('added username should be unique', async () => {
+    const user = await api
       .post('/api/users')
       .send(initialUser)
       .expect(400)
       .expect('Content-Type', /application\/json/);
+    expect(user.body).toBe('User already in database');
   });
 });
 
