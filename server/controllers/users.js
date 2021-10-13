@@ -20,7 +20,7 @@ const addUser = async (req, res) => {
 
         const saved = await newUser.save();
 
-        res.send(saved);
+        res.json({ username: saved.username });
       } catch (err) {
         res.status(404).json(err.message);
       }

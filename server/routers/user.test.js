@@ -26,16 +26,17 @@ beforeEach(async () => {
 });
 
 describe('user api tests', () => {
-  it('add user', async () => {
+  it('add user and return username', async () => {
     const newUserObject = {
       username: 'new',
       password: 'new',
     };
-    await api
+    const user = await api
       .post('/api/users')
       .send(newUserObject)
       .expect(200)
       .expect('Content-Type', /application\/json/);
+    expect(user.body).toStrictEqual({ username: newUserObject.username });
   });
 
   test('added username should be unique', async () => {
@@ -44,6 +45,7 @@ describe('user api tests', () => {
       .send(initialUser)
       .expect(400)
       .expect('Content-Type', /application\/json/);
+
     expect(user.body).toBe('User already in database');
   });
 });
