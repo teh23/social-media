@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { Users } = require('../models');
+const { User } = require('../models');
 const { findOneUser } = require('../services').users;
 
 const addUser = async (req, res) => {
@@ -13,7 +13,7 @@ const addUser = async (req, res) => {
       try {
         const passwordHash = await bcrypt.hash(body.password, saltRounds);
 
-        const newUser = new Users({
+        const newUser = new User({
           username: body.username,
           password: passwordHash,
         });

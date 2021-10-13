@@ -6,7 +6,7 @@ const supertest = require('supertest');
 const app = require('../app');
 
 const api = supertest(app);
-const User = require('../models').Users;
+const User = require('../models').User;
 
 const { DB_URL } = process.env;
 
@@ -32,7 +32,7 @@ describe('user api tests', () => {
       password: 'new',
     };
     const user = await api
-      .post('/api/users')
+      .post('/api/user')
       .send(newUserObject)
       .expect(200)
       .expect('Content-Type', /application\/json/);
@@ -41,7 +41,7 @@ describe('user api tests', () => {
 
   test('added username should be unique', async () => {
     const user = await api
-      .post('/api/users')
+      .post('/api/user')
       .send(initialUser)
       .expect(400)
       .expect('Content-Type', /application\/json/);
@@ -53,7 +53,7 @@ describe('user api tests', () => {
 describe('testing login', () => {
   test('correct credentials', async () => {
     const user = await api
-      .post('/api/users/login')
+      .post('/api/user/login')
       .send(initialUser)
       .expect(200)
       .expect('Content-Type', /application\/json/);
@@ -66,7 +66,7 @@ describe('testing login', () => {
 
   test('incorrect login', async () => {
     const user = await api
-      .post('/api/users/login')
+      .post('/api/user/login')
       .send({ username: '-1;', password: '-1' })
       .expect(400)
       .expect('Content-Type', /application\/json/);
@@ -75,7 +75,7 @@ describe('testing login', () => {
 
   test('incorrect password', async () => {
     const user = await api
-      .post('/api/users/login')
+      .post('/api/user/login')
       .send({ username: initialUser.username, password: '-1' })
       .expect(400)
       .expect('Content-Type', /application\/json/);
