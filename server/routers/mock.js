@@ -3,10 +3,12 @@ const Post = require('../models').Post;
 const User = require('../models').User;
 const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
+
 const initialPost = {
   title: 'test title',
   body: 'test body',
-  //   media: '',
+  media: '',
   //   user: '',
   //   comments: [''],
 };
@@ -18,13 +20,16 @@ const initialUser = {
 
 const setData = async () => {
   await mongoose.connect(DB_URL);
+
   await User.deleteMany({});
+  await Post.deleteMany({});
+
   let userObject = new User({
     username: initialUser.username,
     password: await bcrypt.hash(initialUser.password, 10),
   });
   await userObject.save();
-  await Post.deleteMany({});
+
   let postObject = new Post({
     ...initialPost,
     user: userObject._id,
@@ -32,8 +37,26 @@ const setData = async () => {
   await postObject.save();
 };
 
+const loginUser = async () => {
+  const user = await User.findOne({ username: initialUser.username });
+  const tokenData = {
+    username: user.username,
+    // eslint-disable-next-line no-underscore-dangle
+    id: user._id,
+  };
+
+  const token = jwt.sign(tokenData, process.env.SECRET);
+  return token;
+};
+
 const closeMongoose = () => {
   mongoose.connection.close();
 };
 
-module.exports = { setData, initialUser, closeMongoose };
+module.exports = {
+  setData,
+  initialUser,
+  closeMongoose,
+  initialPost,
+  loginUser,
+};

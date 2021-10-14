@@ -36,6 +36,7 @@ describe('user api tests', () => {
 
     expect(user.body).toBe('User already in database');
   });
+  test.todo('get all user posts');
 });
 
 describe('testing login', () => {

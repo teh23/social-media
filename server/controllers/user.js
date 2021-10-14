@@ -1,13 +1,12 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { User } = require('../models');
-const { findOneUser } = require('../services').users;
 
 const addUser = async (req, res) => {
   const { body } = req;
   const saltRounds = 10;
   try {
-    const findOne = await findOneUser(body.username);
+    const findOne = await User.findOne({ username: body.username });
 
     if (!findOne) {
       try {
@@ -35,7 +34,7 @@ const addUser = async (req, res) => {
 const loginUser = async (req, res) => {
   const { body } = req;
   try {
-    const user = await findOneUser(body.username);
+    const user = await User.findOne({ username: body.username });
     if (!user) {
       res.status(400).json('invalid login');
       return;

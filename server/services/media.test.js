@@ -24,8 +24,6 @@
 // afterAll(() => {
 //   closeMongoose();
 // });
-describe('skip', () => {
-  test('skip', () => {
-    expect(1).toBe(1);
-  });
+describe('media testing', () => {
+  test.skip('skip');
 });
