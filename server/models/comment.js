@@ -12,8 +12,7 @@ const commentSchema = new mongoose.Schema(
       ref: 'User',
     },
     media: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Media',
+      type: String,
     },
   },
   { timestamps: true }

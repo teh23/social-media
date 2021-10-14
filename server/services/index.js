@@ -1,2 +1,3 @@
 const users = require('./users.service');
-module.exports = { users };
+const media = require('./media.service');
+module.exports = { users, media };

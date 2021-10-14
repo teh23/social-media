@@ -11,8 +11,7 @@ const postSchema = new mongoose.Schema(
       required: true,
     },
     media: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Media',
+      type: String,
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,

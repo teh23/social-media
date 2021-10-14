@@ -3,7 +3,7 @@ module.exports = {
     browser: true,
     es2021: true,
   },
-  extends: ['airbnb', 'airbnb-typescript'],
+  extends: ['airbnb', 'airbnb-typescript', 'jest'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
