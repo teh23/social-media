@@ -1,28 +1,15 @@
 import '@babel/polyfill';
 
-const bcrypt = require('bcrypt');
-const mongoose = require('mongoose');
 const supertest = require('supertest');
 const app = require('../app');
-
+const { closeMongoose } = require('./mock');
 const api = supertest(app);
 const User = require('../models').User;
-
+const { setData } = require('./mock');
 const { DB_URL } = process.env;
-
-const initialUser = {
-  username: 'test',
-  password: 'test',
-};
-
+const { initialUser } = require('./mock');
 beforeEach(async () => {
-  await mongoose.connect(DB_URL);
-  await User.deleteMany({});
-  let userObject = new User({
-    username: initialUser.username,
-    password: await bcrypt.hash(initialUser.password, 10),
-  });
-  await userObject.save();
+  await setData();
 });
 
 describe('user api tests', () => {
@@ -31,6 +18,7 @@ describe('user api tests', () => {
       username: 'new',
       password: 'new',
     };
+
     const user = await api
       .post('/api/user')
       .send(newUserObject)
@@ -84,5 +72,5 @@ describe('testing login', () => {
 });
 
 afterAll(() => {
-  mongoose.connection.close();
+  closeMongoose();
 });
