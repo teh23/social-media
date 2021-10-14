@@ -91,7 +91,10 @@ describe('get post', () => {
         title: testPost.title,
         body: testPost.body,
         media: testPost.media,
-        user: username._id.toString(),
+        user: {
+          _id: username._id.toString(),
+          username: initialUser.username,
+        },
         comments: [],
         _id: expect.any(String),
         createdAt: expect.any(String),

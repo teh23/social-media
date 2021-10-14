@@ -27,7 +27,13 @@ const addPost = async (req, res) => {
 };
 
 const getAllPost = async (req, res) => {
-  const posts = await Post.find({});
+  const posts = await Post.find({}).populate('user', {
+    password: 0,
+    __v: 0,
+    createdAt: 0,
+    updatedAt: 0,
+    posts: 0,
+  });
   res.status(200).json(posts);
 };
 
