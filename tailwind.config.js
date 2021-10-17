@@ -1,9 +1,14 @@
 module.exports = {
   mode: 'jit',
   purge: ['./client/**/*.html', './client/**/*.tsx', './client/src/*.tsx'],
-  darkMode: false, // or 'media' or 'class'
+  darkMode: 'media', // or 'media' or 'class'
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        oswald: ['Oswald'],
+        // sans: ['Montserrat'],
+      },
+    },
   },
   variants: {
     extend: {},
