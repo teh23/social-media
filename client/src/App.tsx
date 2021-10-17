@@ -1,7 +1,14 @@
 import React from 'react';
+import Application from './containers/Application';
+import { store } from './store';
+import { Provider } from 'react-redux';
+import './index.css';
 
 const App = () => {
-  console.log('tutaja');
-  return <div className="bg-gray-700">asddssddxx</div>;
+  return (
+    <Provider store={store}>
+      <Application />
+    </Provider>
+  );
 };
 export default App;

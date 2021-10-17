@@ -3,17 +3,22 @@ module.exports = {
     browser: true,
     es2021: true,
   },
-  extends: ['airbnb', 'airbnb-typescript', 'jest'],
+  extends: [
+    'plugin:react/recommended',
+    'airbnb-typescript',
+  ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
     },
-    ecmaVersion: 13,
+    ecmaVersion: 12,
     sourceType: 'module',
   },
-  plugins: ['react', '@typescript-eslint'],
-
-  rules: {},
-  ignorePatterns: ['./node-modules, ./server', './postcss.config.js'],
+  plugins: [
+    'react',
+    '@typescript-eslint',
+  ],
+  rules: {
+  },
 };
